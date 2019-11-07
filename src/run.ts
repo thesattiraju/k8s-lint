@@ -6,6 +6,7 @@ import * as toolCache from '@actions/tool-cache';
 import * as core from '@actions/core';
 import * as io from '@actions/io';
 import { ToolRunner } from "@actions/exec/lib/toolrunner";
+import * as exec from "@actions/exec";
 
 const kubectlToolName = 'kubeval';
 
@@ -37,6 +38,7 @@ async function downloadKubeval(): Promise<string> {
         try {
             kubectlDownloadPath = await toolCache.downloadTool(getkubectlDownloadURL());
             console.log("dowloaded to", kubectlDownloadPath);
+            await exec.exec(`ls ${kubectlDownloadPath}`)
             switch (os.type()) {
                 case 'Linux':
                     kubectlDownloadPath = await toolCache.extractTar(path.join(kubectlDownloadPath, "kubeval-linux-amd64.tar.gz"));
