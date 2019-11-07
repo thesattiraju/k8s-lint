@@ -59,7 +59,7 @@ async function downloadKubeval(): Promise<string> {
         }
     }
 
-    const kubectlPath = path.join(cachedToolpath, kubectlToolName + getExecutableExtension());
+    const kubectlPath = path.join(kubectlDownloadPath, kubectlToolName + getExecutableExtension());
     fs.chmodSync(kubectlPath, '777');
     core.addPath(kubectlDownloadPath);
     return kubectlPath;
