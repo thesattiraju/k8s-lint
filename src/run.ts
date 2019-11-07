@@ -36,14 +36,17 @@ async function downloadKubeval(): Promise<string> {
     if (!cachedToolpath) {
         try {
             kubectlDownloadPath = await toolCache.downloadTool(getkubectlDownloadURL());
+            console.log("dowloaded");
             switch (os.type()) {
                 case 'Linux':
+                    kubectlDownloadPath = await toolCache.extractTar(path.join(kubectlDownloadPath, "kubeval-linux-amd64.tar.gz"));
+                    break;
                 case 'Darwin':
-                    kubectlDownloadPath = await toolCache.extractTar(kubectlDownloadPath);
+                    kubectlDownloadPath = await toolCache.extractTar(path.join(kubectlDownloadPath, "kubeval-darwin-amd64.tar.gz"));
                     break;
                 case 'Windows_NT':
                 default:
-                    kubectlDownloadPath = await toolCache.extractZip(kubectlDownloadPath);
+                    kubectlDownloadPath = await toolCache.extractZip(kubectlDownloadPath, "kubeval-windows-amd64.zip");
             }
         } catch (exception) {
             throw new Error('DownloadKubectlFailed');
