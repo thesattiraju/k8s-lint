@@ -36,7 +36,7 @@ async function downloadKubeval(): Promise<string> {
     if (!cachedToolpath) {
         try {
             kubectlDownloadPath = await toolCache.downloadTool(getkubectlDownloadURL());
-            console.log("dowloaded");
+            console.log("dowloaded to", kubectlDownloadPath);
             switch (os.type()) {
                 case 'Linux':
                     kubectlDownloadPath = await toolCache.extractTar(path.join(kubectlDownloadPath, "kubeval-linux-amd64.tar.gz"));
