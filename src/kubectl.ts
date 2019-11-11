@@ -60,7 +60,7 @@ async function downloadKubectl(version: string): Promise<string> {
 }
 
 async function validateServer(toolPath: string) {
-    let toolRunner = new ToolRunner(toolPath, ['version'], {failOnStdErr: false});
+    let toolRunner = new ToolRunner(toolPath, ['version'], { ignoreReturnCode: true });
     const code = await toolRunner.exec();
     if (code) {
         core.setFailed("Kubernetes context not set");
