@@ -59,8 +59,17 @@ async function downloadKubectl(version: string): Promise<string> {
     return kubectlPath;
 }
 
+async function validateServer(toolPath: string) {
+    let toolRunner = new ToolRunner(toolPath, ['version']);
+    const code = await toolRunner.exec();
+    if (code) {
+        core.setFailed("Kubernetes context not set");
+    }
+}
+
 export async function kubectlEvalLint(manifests: string[]) {
     let toolPath = await downloadKubectl(await getStableKubectlVersion());
+    await validateServer(toolPath);
     for (let i = 0; i < manifests.length; i++) {
         const manifest = manifests[i];
         let toolRunner = new ToolRunner(toolPath, ['apply', '-f', manifest, '--server-dry-run']);
